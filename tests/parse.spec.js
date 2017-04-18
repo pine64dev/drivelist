@@ -232,4 +232,54 @@ describe('Parse', function() {
     ]);
   });
 
+  it('should handle unknown escape sequences inside a value', function() {
+    m.chai.expect(parse([
+      'device: /dev/disk1',
+      'description: "\\]=-01`234567890=-098e"'
+    ].join('\n'))).to.deep.equal([
+      {
+        device: '/dev/disk1',
+        description: ']=-01`234567890=-098e'
+      }
+    ]);
+  });
+
+  it('should delete known escape sequences', function() {
+    m.chai.expect(parse([
+      'device: /dev/disk1',
+      'description: "foo\bbar\rbaz"'
+    ].join('\n'))).to.deep.equal([
+      {
+        device: '/dev/disk1',
+        description: 'foobarbaz'
+      }
+    ]);
+  });
+
+  it('should not remove tabs inside values', function() {
+    m.chai.expect(parse([
+      'device: /dev/disk1',
+      'description: "foo\tbar"'
+    ].join('\n'))).to.deep.equal([
+      {
+        device: '/dev/disk1',
+        description: 'foo    bar'
+      }
+    ]);
+  });
+
+  it('should handle unicode characters inside a value', function() {
+    m.chai.expect(parse([
+      'device: /dev/disk1',
+      'description: ""HCG8e\u0005"             ^"',
+      'foo: "StoreJet  Transce\u0007\ufffd"'
+    ].join('\n'))).to.deep.equal([
+      {
+        device: '/dev/disk1',
+        description: '"HCG8e"             ^',
+        foo: 'StoreJet  Transce'
+      }
+    ]);
+  });
+
 });
