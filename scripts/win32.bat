@@ -95,19 +95,21 @@ Function GetLogicalDisks(ByVal DriveDevice)
 					DrivePartition.DeviceID & """} WHERE AssocClass = " & _
 						"Win32_LogicalDiskToPartition")
 
-			For Each DriveLogicalDisk In DriveLogicalDisksColumn
-				Set LogicalDisk = CreateObject("Scripting.Dictionary")
+      If IsWMIObjectValid(DriveLogicalDisksColumn) Then
+        For Each DriveLogicalDisk In DriveLogicalDisksColumn
+          Set LogicalDisk = CreateObject("Scripting.Dictionary")
 
-				' Windows might assign a drive letter to partitions that
-				' don't contain a file-system for some reason.
-				' After some experimentation, it seems that we can filter
-				' those out by checking if the partition size is null
-				If Not IsNull(DriveLogicalDisk.Size) Then
-					LogicalDisk.Add "Device", DriveLogicalDisk.DeviceID
-					LogicalDisk.Add "IsProtected", DriveLogicalDisk.Access = 1
-					GetLogicalDisks.Add(LogicalDisk)
-				End If
-			Next
+          ' Windows might assign a drive letter to partitions that
+          ' don't contain a file-system for some reason.
+          ' After some experimentation, it seems that we can filter
+          ' those out by checking if the partition size is null
+          If Not IsNull(DriveLogicalDisk.Size) Then
+            LogicalDisk.Add "Device", DriveLogicalDisk.DeviceID
+            LogicalDisk.Add "IsProtected", DriveLogicalDisk.Access = 1
+            GetLogicalDisks.Add(LogicalDisk)
+          End If
+        Next
+      End If
 		Next
 	End If
 End Function
