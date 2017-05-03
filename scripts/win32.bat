@@ -121,8 +121,13 @@ Function GetTopLevelDrives()
 
 	For Each TopLevelDrive In TopLevelDrivesColumn
 		Set Summary = CreateObject("Scripting.Dictionary")
-		DeviceID = Replace(TopLevelDrive.DeviceID, "\", "\\")
-		Set LogicalDisks = GetLogicalDisks(DeviceID)
+
+    If IsNull(TopLevelDrive.DeviceID) Then
+      Set LogicalDisks = Nothing
+    Else
+		  DeviceID = Replace(TopLevelDrive.DeviceID, "\", "\\")
+		  Set LogicalDisks = GetLogicalDisks(DeviceID)
+    End If
 
 		If Not LogicalDisks Is Nothing Then
 			Summary.Add "Device", DeviceID
