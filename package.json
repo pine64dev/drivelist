@@ -1,12 +1,12 @@
 {
   "name": "drivelist",
-  "version": "5.0.18",
+  "version": "5.0.20",
   "description": "List all connected drives in your computer, in all major operating systems",
   "main": "lib/drivelist.js",
-  "homepage": "https://github.com/resin-io-modules/drivelist",
+  "homepage": "https://github.com/pine64dev/drivelist",
   "repository": {
     "type": "git",
-    "url": "git://github.com/resin-io-modules/drivelist.git"
+    "url": "git://github.com/pine64dev/drivelist.git"
   },
   "keywords": [
     "disk",
@@ -29,7 +29,7 @@
     "drivelist-linux": "scripts/linux.sh",
     "drivelist-win32": "scripts/win32.bat"
   },
-  "author": "Juan Cruz Viotti <juan@resin.io>",
+  "author": "Juan Cruz Viotti <juan@resin.io>, PINE64 Developer <developer@pine64.org>",
   "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^3.9.0",
